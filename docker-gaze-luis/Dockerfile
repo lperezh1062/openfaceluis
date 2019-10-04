@@ -35,12 +35,7 @@ RUN apt-get update && apt-get install -y \
 ##======================================================
 # Install keras and update others package
 
-RUN pip install -y setuptools \
-    scipy==1.3.1 \
-    scikit-image==0.15.0 \
-    keras==2.2.0 \
-    face-alignment \
-    keras-vggface --no-dependencies
+RUN pip install setuptools scipy==1.3.1 scikit-image==0.15.0 keras==2.2.0 face-alignment keras-vggface --no-dependencies
 ##======================================================
 ##======================================================
 ##======================= Cmake =========================================
