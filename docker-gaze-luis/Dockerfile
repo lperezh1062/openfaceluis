@@ -21,7 +21,7 @@ RUN apt-get update -qq &&\
 # Install keras and update others package
 
 RUN pip install setuptools scipy==1.3.1 scikit-image==0.15.0 keras==2.2.0 face_alignment keras-vggface --no-dependencies && \
-Keras-Applications==1.0.6 -U scikit-learn 
+-U Keras-Applications==1.0.6 --no-deps -U scikit-learn 
 ##======================================================
 ##======================================================
 ##======================= Cmake =========================================
