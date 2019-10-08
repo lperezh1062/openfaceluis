@@ -11,31 +11,17 @@ RUN apt-get update -qq &&\
         libopenblas-dev liblapack-dev libx11-dev \
         libavcodec-dev libavformat-dev libswscale-dev \
         libtbb2 libtbb-dev libjpeg-dev libboost-all-dev python3 \
-        python-pip git g++-8 build-essential wget \
+        python-pip git g++-8 build-essential wget curl \
         make libprotobuf-dev protobuf-compiler libopencv-dev \
-        libpng-dev libtiff-dev cmake apt-utils &&\
+        libpng-dev libtiff-dev cmake apt-utils nano &&\
     rm -rf /var/lib/apt/lists/*
 ## ====================================================
-# Install useful Python packages using apt-get to avoid version incompatibilities with Tensorflow binary
-# especially numpy, scipy, skimage and sklearn (see https://github.com/tensorflow/tensorflow/issues/2034)
-RUN apt-get update && apt-get install -y \
-		python3-numpy \
-		python3-scipy \
-		python3-nose \
-		python3-h5py \
-		python3-skimage \
-		python3-matplotlib \
-		python3-pandas \
-		python3-sklearn \
-		python3-sympy \
-		&& \
-	apt-get clean && \
-	apt-get autoremove && \
-	rm -rf /var/lib/apt/lists/*
+
 ##======================================================
 # Install keras and update others package
 
-RUN pip install setuptools scipy==1.3.1 scikit-image==0.15.0 keras==2.2.0 face-alignment keras-vggface --no-dependencies
+RUN pip install setuptools scipy==1.3.1 scikit-image==0.15.0 keras==2.2.0 face_alignment keras-vggface --no-dependencies && \
+Keras-Applications==1.0.6 -U scikit-learn 
 ##======================================================
 ##======================================================
 ##======================= Cmake =========================================
@@ -59,7 +45,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ## ==================== Building dlib ===========================
 
-RUN wget http://dlib.net/files/dlib-19.13.tar.bz2 &&\
+RUN curl http://dlib.net/files/dlib-19.13.tar.bz2 -LO &&\
     tar xf dlib-19.13.tar.bz2 && \
     rm dlib-19.13.tar.bz2 &&\
     mv dlib-19.13 dlib &&\
@@ -72,7 +58,7 @@ RUN wget http://dlib.net/files/dlib-19.13.tar.bz2 &&\
 
 ## ==================== Building OpenCV ======================
 WORKDIR /root/build-dep
-RUN wget https://github.com/opencv/opencv/archive/4.1.0.zip &&\
+RUN curl https://github.com/opencv/opencv/archive/4.1.0.zip -LO &&\
     unzip 4.1.0.zip && \
     rm 4.1.0.zip &&\
     mv opencv-4.1.0 opencv
@@ -100,7 +86,7 @@ RUN cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUIL
 
 WORKDIR /root/openface
 
-RUN wget https://github.com/TadasBaltrusaitis/OpenFace/archive/OpenFace_2.2.0.zip &&\
+RUN curl https://github.com/TadasBaltrusaitis/OpenFace/archive/OpenFace_2.2.0.zip -LO &&\
     unzip OpenFace_2.2.0.zip &&\
     rm OpenFace_2.2.0.zip
 
@@ -126,4 +112,13 @@ RUN export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/openblas:$LD_LIBRARY_PATH &
 #     cmake --build . --target openface_wrapper -j 4 
 # ##=======================================================
 # # Since we "imported" the build artifacts, we need to reconfigure ld
+#RUN ldconfig
+FROM ubuntu_base as final
+
+WORKDIR /root
+
+# Copy in only necessary libraries
+COPY --from=openface /root/diff /
+
+# Since we "imported" the build artifacts, we need to reconfigure ld
 RUN ldconfig
