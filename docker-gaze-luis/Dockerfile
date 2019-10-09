@@ -114,13 +114,7 @@ RUN export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/openblas:$LD_LIBRARY_PATH &
 #     cmake --build . --target openface_wrapper -j 4 
 # ##=======================================================
 # # Since we "imported" the build artifacts, we need to reconfigure ld
-#RUN ldconfig
-FROM ubuntu_base as final
 
-WORKDIR /root
-
-# Copy in only necessary libraries
-COPY --from=openface /root/diff /
 
 # Since we "imported" the build artifacts, we need to reconfigure ld
 RUN ldconfig
