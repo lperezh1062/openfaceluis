@@ -20,8 +20,12 @@ RUN apt-get update -qq &&\
 ##======================================================
 # Install keras and update others package
 
-RUN pip install setuptools scipy==1.3.1 scikit-image==0.15.0 keras==2.2.0 face_alignment keras-vggface --no-dependencies 
-
+RUN pip install setuptools 
+RUN pip install face_alignment
+RUN pip install scipy==1.3.1 
+RUN pip install scikit-image==0.15.0 
+RUN pip install keras==2.2.0
+RUN pip install keras-vggface --no-dependencies 
 RUN pip install -U keras_applications==1.0.6 --no-deps 
 Run pip install -U scikit-learn 
 ##======================================================
@@ -67,7 +71,7 @@ RUN curl https://github.com/opencv/opencv/archive/4.1.0.zip -LO &&\
 
 WORKDIR /root/build-dep/opencv/build
 
-RUN echo $PATH
+#RUN echo $PATH
 RUN cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_TIFF=ON -D WITH_TBB=ON -D BUILD_SHARED_LIBS=OFF .. &&\
     cmake --build . -j 4 && \
     make install
