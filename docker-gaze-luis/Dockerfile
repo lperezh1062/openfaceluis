@@ -10,16 +10,16 @@ RUN apt-get update -qq &&\
     apt-get install -qq --no-install-recommends \
         libopenblas-dev liblapack-dev libx11-dev \
         libavcodec-dev libavformat-dev libswscale-dev \
-        libtbb2 libtbb-dev libjpeg-dev libboost-all-dev python3 \
+        libtbb2 libtbb-dev libjpeg-dev libboost-all-dev \
         python-pip git g++-8 build-essential wget curl \
-        make libprotobuf-dev protobuf-compiler libopencv-dev \
+        libprotobuf-dev protobuf-compiler libopencv-dev \
         libpng-dev libtiff-dev cmake apt-utils nano &&\
     rm -rf /var/lib/apt/lists/*
 ## ====================================================
 
 ##======================================================
 # Install keras and update others package
-
+COPY ./requirements.txt  /root/
 RUN pip install -r requirements.txt
 ##======================================================
 ##======================================================
