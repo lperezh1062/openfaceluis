@@ -1,0 +1,8 @@
+setuptools
+face_alignment
+scipy==1.3.1
+scikit-image==0.15.0
+keras==2.2.0
+keras-vggface --no-dependencies
+-U keras_applications==1.0.6 --no-deps
+-U scikit-learn
