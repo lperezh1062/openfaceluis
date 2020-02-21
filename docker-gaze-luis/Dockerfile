@@ -19,7 +19,7 @@ RUN apt-get update -qq &&\
 
 ##======================================================
 # Install keras and update others package
-COPY ./requirements.txt  /root/requirements.txt
+COPY requirements.txt  /root/requirements.txt
 WORKDIR /root
 RUN pip install -r requirements.txt
 ##======================================================
