@@ -19,9 +19,15 @@ RUN apt-get update -qq &&\
 
 ##======================================================
 # Install keras and update others package
-ADD . /docker-gaze-luis/requirements.txt  /root/requirements.txt
-WORKDIR /root
-RUN pip install -r requirements.txt
+RUN pip install setuptools 
+RUN pip install face_alignment
+RUN pip install scipy==1.3.1 
+RUN pip install scikit-image==0.15.0 
+RUN pip install keras==2.2.0
+RUN pip install keras-vggface --no-dependencies 
+RUN pip install -U keras_applications==1.0.6 --no-deps 
+Run pip install -U scikit-learn 
+Run natsort
 ##======================================================
 ##======================================================
 ##======================= Cmake =========================================
