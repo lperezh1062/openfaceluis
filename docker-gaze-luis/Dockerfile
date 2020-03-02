@@ -27,7 +27,7 @@ RUN pip install keras==2.2.0
 RUN pip install keras-vggface --no-dependencies 
 RUN pip install -U keras_applications==1.0.6 --no-deps 
 Run pip install -U scikit-learn 
-Run natsort
+Run pip install natsort
 ##======================================================
 ##======================================================
 ##======================= Cmake =========================================
